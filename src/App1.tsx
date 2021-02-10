@@ -1,10 +1,11 @@
 import React from 'react';
-import Counter from './components/Counter';
+// import Counter from './components/Counter';
+import EventButton from './components/EventButton';
 
 const App = () => {
   return (
     <>
-      <Counter />
+      <EventButton />
     </>
   );
 };
