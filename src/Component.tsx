@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, {Fragment} from 'react';
 import { StyleSheet, View, Text, StatusBar } from "react-native";
 import MyButton from './components/MyButton';
 
