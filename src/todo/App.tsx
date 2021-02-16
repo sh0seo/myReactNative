@@ -1,11 +1,13 @@
-import React, {useState} from 'react';
-import {Alert, StatusBar, useWindowDimensions} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {StatusBar, useWindowDimensions} from 'react-native';
 import styled, {ThemeProvider} from 'styled-components/native';
 import {theme} from './theme';
 import Input from './components/Input';
-import IconButton from './components/IconButton';
+// import IconButton from './components/IconButton';
 import Task from './components/Task';
-import {images} from './images';
+// import {images} from './images';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import SplashScreen from 'react-native-splash-screen';
 
 const Container = styled.SafeAreaView`
   flex: 1;
@@ -37,31 +39,45 @@ const App = () => {
   });
   const width = useWindowDimensions().width;
 
+  const _saveTasks = async tasks => {
+    try {
+      await AsyncStorage.setItem('tasks', JSON.stringify(tasks));
+      setTasks(tasks);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const _loadTasks = async () => {
+    const loadedTasks = await AsyncStorage.getItem('tasks');
+    setTasks(JSON.parse(loadedTasks || '{}'));
+  };
+
   const _addTask = () => {
     const ID = Date.now().toString();
     const newTaskObject = {
       [ID]: {id: ID, text: newTask, completed: false},
     };
     setNewTask('');
-    setTasks({...tasks, ...newTaskObject});
+    _saveTasks({...tasks, ...newTaskObject});
   };
 
   const _deleteTask = (id: string) => {
     const currentTasks = Object.assign({}, tasks);
     delete currentTasks[id];
-    setTasks(currentTasks);
+    _saveTasks(currentTasks);
   };
 
   const _toggleTask = (id: string) => {
     const currentTasks = Object.assign({}, tasks);
     currentTasks[id]['completed'] = !currentTasks[id]['completed'];
-    setTasks(currentTasks);
+    _saveTasks(currentTasks);
   };
 
   const _updateTask = item => {
     const currentTasks = Object.assign({}, tasks);
     currentTasks[item.id] = item;
-    setTasks(currentTasks);
+    _saveTasks(currentTasks);
   };
 
   const _handleTextChange = (text: string) => {
@@ -71,6 +87,12 @@ const App = () => {
   const _onBlur = () => {
     setNewTask('');
   };
+
+  useEffect(() => {
+    setTimeout(() => {
+      SplashScreen.hide();
+    }, 1000);
+  }, []);
 
   return (
     <ThemeProvider theme={theme}>
