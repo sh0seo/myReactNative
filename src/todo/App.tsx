@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
-import {Alert, StatusBar} from 'react-native';
+import {Alert, StatusBar, useWindowDimensions} from 'react-native';
 import styled, {ThemeProvider} from 'styled-components/native';
 import {theme} from './theme';
 import Input from './components/Input';
 import IconButton from './components/IconButton';
-import { images } from './images';
+import Task from './components/Task';
+import {images} from './images';
 
 const Container = styled.SafeAreaView`
   flex: 1;
@@ -21,12 +22,34 @@ const Title = styled.Text`
   margin: 0px 20px;
 `;
 
+const List = styled.ScrollView`
+  flex: 1;
+  width: ${({width}) => width - 40}px;
+`;
+
 const App = () => {
   const [newTask, setNewTask] = useState('');
+  const [tasks, setTasks] = useState({
+    '1': {id: '1', text: 'Hanbit', completed: false},
+    '2': {id: '2', text: 'React Native', completed: true},
+    '3': {id: '3', text: 'React Native Sample', completed: false},
+    '4': {id: '4', text: 'Edit TODO item', completed: false},
+  });
+  const width = useWindowDimensions().width;
 
   const _addTask = () => {
-    Alert.alert(`Add: ${newTask}`);
+    const ID = Date.now().toString();
+    const newTaskObject = {
+      [ID]: {id: ID, text: newTask, completed: false},
+    };
     setNewTask('');
+    setTasks({...tasks, ...newTaskObject});
+  };
+
+  const _deleteTask = (id: string) => {
+    const currentTasks = Object.assign({}, tasks);
+    delete currentTasks[id];
+    setTasks(currentTasks);
   };
 
   const _handleTextChange = (text: string) => {
@@ -46,17 +69,20 @@ const App = () => {
           onChangeText={_handleTextChange}
           onSubmitEditing={_addTask}
         />
-        <IconButton type={images.uncompleted} />
-        <IconButton type={images.completed} />
-        <IconButton type={images.delete} />
-        <IconButton type={images.update} />
+        <List width={width}>
+          {Object.values(tasks)
+            .reverse()
+            .map(item => (
+              <Task key={item.id} item={item} deleteTask={_deleteTask} />
+            ))}
+        </List>
+        {/* <IconButton type={images.uncompleted} /> */}
+        {/* <IconButton type={images.completed} /> */}
+        {/* <IconButton type={images.delete} /> */}
+        {/* <IconButton type={images.update} /> */}
       </Container>
     </ThemeProvider>
   );
 };
-
-// interface Themes {
-// background: '';
-// }
 
 export default App;
