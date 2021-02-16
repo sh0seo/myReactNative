@@ -4,7 +4,7 @@ import styled from 'styled-components/native';
 // import {images} from '../images';
 
 const Icon = styled.Image`
-  tint-color: ${({theme}) => theme.text};
+  tint-color: ${({theme, completed}) => completed ? theme.done : theme.text};
   width: 30px;
   height: 30px;
   margin: 10px;
@@ -16,7 +16,7 @@ const IconButton = (props: IconButtonProps) => {
   };
   return (
     <Pressable onPressOut={_onPressOut}>
-      <Icon source={props.type} />
+      <Icon source={props.type} completed={props.completed} />
     </Pressable>
   );
 };
@@ -27,8 +27,9 @@ IconButton.defaultProps = {
 
 interface IconButtonProps {
   type: any;
-  onPressOut: (id: string) => {};
+  onPressOut: (id?: string) => {};
   id: string;
+  completed: boolean;
 }
 
 export default IconButton;

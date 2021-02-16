@@ -31,6 +31,7 @@ const Input = (props: InputState) => {
       value={props.value}
       onChangeText={props.onChangeText}
       onSubmitEditing={props.onSubmitEditing}
+      onBlur={props.onBlur}
     />
   );
 };
@@ -40,6 +41,7 @@ interface InputState {
   value: string;
   onChangeText: (text: string) => {};
   onSubmitEditing: () => {};
+  onBlur: () => void;
 }
 
 export default Input;

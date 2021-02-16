@@ -1,12 +1,12 @@
-export interface Theme {
-  background: any;
-  itemBackground: string;
-  main: string;
-  text: string;
-  done: string;
-}
+// export interface ITheme {
+//   background: any;
+//   itemBackground: string;
+//   main: string;
+//   text: string;
+//   done: string;
+// }
 
-export const theme: Theme = {
+export const theme = {
   background: '#101010',
   itemBackground: '#313131',
   main: '#778bdd',
