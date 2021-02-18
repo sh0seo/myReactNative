@@ -3,7 +3,7 @@ import {Button} from 'react-native';
 import styled from 'styled-components/native';
 
 const Container = styled.View`
-  flex: 1,
+  flex: 1;
   justify-content: center;
   align-items: center;
 `;
@@ -19,18 +19,20 @@ const items = [
   {_id: 3, name: 'Hanbit'},
 ];
 
-const List = () => {
-  const _onPress = (item: {}) => {};
+const List = ({navigation}) => {
+  const _onPress = (item: {_id: number; name: string}) => {
+    navigation.navigate('Item', {id: item._id, name: item.name});
+  };
   return (
     <Container>
       <StyledText>List</StyledText>
-      {items.map((item: {}) => {
+      {items.map((item) => (
         <Button
           key={item._id}
           title={item.name}
           onPress={() => _onPress(item)}
         />
-      })}
+      ))}
     </Container>
   );
 };

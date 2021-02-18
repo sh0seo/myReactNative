@@ -2,8 +2,9 @@ import React from 'react';
 import {Button} from 'react-native';
 import styled from 'styled-components/native';
 
-const Container = styled.View`
-  align-items: center;  
+const Container = styled.SafeAreaView`
+  background-color: #ffffff;
+  align-items: center;
 `;
 
 const StyledText = styled.Text`
@@ -11,11 +12,17 @@ const StyledText = styled.Text`
   margin-bottom: 10px;
 `;
 
-const Home = () => {
+const Home = ({navigation}) => {
   return (
     <Container>
       <StyledText>Home</StyledText>
-      <Button title="go to the list screen" />
+      <Button
+        title="go to the list screen"
+        onPress={() => {
+          navigation.navigate('List',);
+          console.log('sf');
+        }}
+      />
     </Container>
   );
 };
