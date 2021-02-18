@@ -16,7 +16,8 @@ import {AppRegistry} from 'react-native';
 // import App from './src/todo/App';
 // import App from './src/hooks/App';
 // import App from './src/context/App';
-import App from './src/navigation/App';
+// import App from './src/navigation/App';
+import App from './src/chat/App';
 import {name as appName} from './app.json';
 
 AppRegistry.registerComponent(appName, () => App);
